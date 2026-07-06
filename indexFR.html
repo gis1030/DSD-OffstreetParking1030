@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://offstreet.1030.be/index-fr.html -->
+<html class="map-view"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>html, body { height: 100%; margin: 0; }
+body {transition: opacity ease-in 0.2s; }
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; }
+</style>
+    
+    <title>Parkings hors voirie · Schaerbeek 1030</title>
+    <link rel="shortcut icon" href="./css/images/logo1030GeoData.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/leaflet.css">
+    <link rel="stylesheet" href="./css/L.Control.Layers.Tree.css">
+    <link rel="stylesheet" href="./css/L.Control.Locate.min.css">
+    <link rel="stylesheet" href="./css/qgis2web.css">
+    <link rel="stylesheet" href="./css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="./css/leaflet.photon.css">
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <div id="sidebar" class="the-sidebar">
+
+        <div id="legend_wrapper" class="legend__wrapper"></div>
+
+        <div id="info"></div>
+    </div>
+
+    <div id="footer">
+        <p>Données produites en 2021 par le <a href="http://www.bratprojects.be/">BRAT</a> sur base de la consultation
+            de diverses bases de données entre mars et juin 2021 (voir source ci-contre) </p>
+
+        <p>Fond de plan © <a href="https://cirb.brussels/fr/nos-solutions/urbis-solutions/urbis-data">Urbis</a> -
+            Visionneuse de données conçue par <a href="http://atelier-cartographique.be/">Atelier cartographique</a>
+        </p>
+    </div>
+
+<script>
+    window.appLanguage = 'fr';
+</script>
+<script src="./data/LimitesSchaerbeek_2.js"></script>
+<script src="./data/QuartiersSchaerbeek_1.js"></script>
+<script src="./data/parking-data.js"></script>
+<script src="./js/leaflet.js"></script>
+<script src="./js/L.Control.Layers.Tree.min.js"></script>
+<script src="./js/L.Control.Locate.min.js"></script>
+<script src="./js/leaflet.photon.js"></script>
+<script src="./js/map.js"></script>
+
+</body></html>
