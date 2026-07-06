@@ -8,9 +8,9 @@
 
 | Tool | Description | Link |
 |---|---|---|
-| 🌐 **Landing page** | Bilingual entry point (FR / NL) | [index.html](index.html) |
-| 🗺️ **Carte / Kaart** | Interactive map — French version | [indexFR.html](indexFR.html) |
-| 🗺️ **Kaart / Carte** | Interactive map — Dutch version | [indexNL.html](indexNL.html) |
+| 🌐 **Landing page** | Bilingual entry point (FR / NL) | [[index.html](https://gis1030.github.io/DSD-OffstreetParking1030/)] |
+| 🗺️ **Carte / Kaart** | Interactive map — French version | [[indexFR.html](https://gis1030.github.io/DSD-OffstreetParking1030/indexFR.html)] |
+| 🗺️ **Kaart / Carte** | Interactive map — Dutch version | [[indexNL.html]](https://gis1030.github.io/DSD-OffstreetParking1030/indexNL.html)] |
 
 ---
 
