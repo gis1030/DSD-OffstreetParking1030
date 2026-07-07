@@ -123,7 +123,6 @@ offstreet_1030_be/
 |---|---|---|
 | Off-street parking sites | Municipal survey — consultation of PE/IBGE, PACS, taxes, Ortho, BePark and other sources, carried out by BRAT | March–June 2021 |
 | Administrative boundaries | Quartiers and limits of Schaerbeek | Reference |
-| Base map | © [Urbis](https://cirb.brussels/fr/nos-solutions/urbis-solutions/urbis-data) | Reference |
 
 Data is processed and packaged as static GeoJSON files for client-side rendering. No server-side queries are performed at runtime, except for the optional address search (Nominatim / OpenStreetMap).
 
