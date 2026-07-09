@@ -19,6 +19,7 @@
 This project provides a spatial inventory of **off-street parking opportunities in the municipality of Schaerbeek**, covering **475 sites** identified between March and June 2021.
 
 The survey was originally developed by [BRAT](http://www.bratprojects.be/)  on behalf of the municipality, using multiple databases (PE/IBGE, PACS, taxes, Ortho, BePark, and other sources). 
+
 As of today, the municipality of Schaerbeek directly manages all database updates. The resulting data is processed into an interactive cartography, accessible from any browser without installation, and available in **French** and **Dutch**.
 ---
 
