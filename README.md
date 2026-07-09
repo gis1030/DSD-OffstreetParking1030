@@ -113,7 +113,7 @@ offstreet_1030_be/
 
 | Date | Description |
 |---|---|
-| July 2026 | Database update |
+| July 2026 | First database update in its new operating cycle |
 | July 2026 | Map re-implemented with a custom layer-tree control, quartier filter, and bilingual (FR/NL) interface |
 | June 2021 | Initial cartography published |
 | March–June 2021 | Off-street parking survey conducted by BRAT across the municipality (475 sites) |
