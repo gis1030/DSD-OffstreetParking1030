@@ -500,7 +500,7 @@
             {
                 label: tl.vue, children: MODES.map(function (mode) {
                     return {
-                        label: T.legends[mode], layer: geoJsonLayers[mode], radioGroup: 'mode',
+                        label: '<b>' + T.legends[mode] + '</b>', layer: geoJsonLayers[mode], radioGroup: 'mode',
                         collapsed: mode !== 'type',
                         children: LEGEND_CATS[mode].map(function (cat) {
                             return { label: T.categories[cat], layer: categoryLayers[mode][cat] };
