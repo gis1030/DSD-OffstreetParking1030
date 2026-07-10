@@ -25,7 +25,7 @@
         },
         owner: {
             'public': '#2ba6ff',
-            'privé': '#ce3943',
+            'prive': '#ce3943',
             _default: '#595959'
         },
         highlighted: {
@@ -38,7 +38,7 @@
     var LEGEND_CATS = {
         type: ['ouvert', 'couvert_sous_sol', 'couvert_hors_sol', 'boxes_ilot', 'boxes_front_rue', 'mix'],
         mutu: ['mutu', 'refused', 'none'],
-        owner: ['public', 'privé'],
+        owner: ['public', 'prive'],
         highlighted: ['OUI', 'NON']
     };
 
@@ -76,7 +76,7 @@
                 refused: 'Refus BePark',
                 none: 'Non mutualisé',
                 'public': 'Public',
-                'privé': 'Privé',
+                'prive': 'Privé',
                 'OUI': 'Site retenu',
                 'NON': 'Non retenu'
             },
@@ -97,7 +97,7 @@
                 pdf: 'Documents PDF'
             },
             fields: {
-                id: 'ID',
+                ID: 'ID',
                 ADRESSE: 'Adresse',
                 NB_TOTAL: 'Nb. places total',
                 dont_mutua: 'Dont mutualisés',
@@ -162,7 +162,7 @@
                 refused: 'Weigering BePark',
                 none: 'Niet gemutualiseerd',
                 'public': 'Publiek',
-                'privé': 'Privé',
+                'prive': 'Privé',
                 'OUI': 'Weerhouden site',
                 'NON': 'Niet weerhouden'
             },
@@ -183,7 +183,7 @@
                 pdf: 'PDF documenten'
             },
             fields: {
-                id: 'ID',
+                ID: 'ID',
                 ADRESSE: 'Adres',
                 NB_TOTAL: 'Totaal plaatsen',
                 dont_mutua: 'Waarvan gemutualiseerd',
@@ -220,7 +220,7 @@
     var T = TRANSLATIONS[lang] || TRANSLATIONS.fr;
 
     var INFO_SECTIONS = [
-        { key: 'generalities', fields: ['id', 'ADRESSE', 'NB_TOTAL', 'dont_mutua', 'Type_parki'] },
+        { key: 'generalities', fields: ['ID', 'ADRESSE', 'NB_TOTAL', 'dont_mutua', 'Type_parki'] },
         { key: 'functions', fields: ['Résidenti', 'Bureaux', 'Commerces', 'Industries', 'Enseigneme', 'Cultu_spor', 'hotel', 'seniorie', 'Autre_equi', 'Pk_public'] },
         { key: 'more_info', fields: ['refusBePar', 'Type_propr', 'Tx_remplis', 'Zone_RRU', 'Nb_COBRACE'] },
         { key: 'sources', fields: ['s_PE_IBGE', 's_PACS', 's_taxes', 's_ortho', 's_BePark', 's_autre'] },
@@ -249,14 +249,24 @@
         return 'none';
     }
 
+    /* Data has finer-grained "mix_*" subtypes (mix_ss_ouvert, mix_Boxes_Ouvert, ...)
+       not present in LEGEND_CATS.type — fold them all into the single 'mix' category. */
+    function normalizeTypeKey(key) {
+        return (typeof key === 'string' && key.indexOf('mix') === 0) ? 'mix' : key;
+    }
+
+    function getKeyForMode(feature, mode) {
+        var p = feature.properties;
+        if (mode === 'type') return normalizeTypeKey(p.Type_parki);
+        if (mode === 'mutu') return getMutuKey(p);
+        if (mode === 'owner') return p.Type_propr;
+        return p.Potentiel;
+    }
+
     function makeStyleForMode(feature, mode) {
         var p = feature.properties;
         var colorMap = COLORS[mode];
-        var key;
-        if (mode === 'type') key = p.Type_parki;
-        else if (mode === 'mutu') key = getMutuKey(p);
-        else if (mode === 'owner') key = p.Type_propr;
-        else key = p.Potentiel;
+        var key = getKeyForMode(feature, mode);
         var color = (colorMap && (colorMap[key] || colorMap._default)) || '#595959';
         var nb = p.NB_TOTAL;
         return {
@@ -383,6 +393,12 @@
             layers: [googleTerrain]
         });
 
+        map.attributionControl.setPrefix(
+            '©GeoData1030: <a href="mailto:geodata.gis1030@gmail.com">geodata.gis1030@gmail.com</a> ' +
+            '<a href="https://www.1030.be/" target="_blank">' + T.tree.appSubtitle + '</a> &middot; ' +
+            '<a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>'
+        );
+
         /* --- Title control (topleft, like DSD) --- */
         var titleControl = new L.Control({ position: 'topleft' });
         titleControl.onAdd = function () {
@@ -395,6 +411,17 @@
         };
         titleControl.addTo(map);
 
+        /* --- Watermark: logo 1030 (bottom left) --- */
+        L.Control.Watermark = L.Control.extend({
+            onAdd: function () {
+                var img = L.DomUtil.create('img');
+                img.src = './css/images/schaerbeek1030_logo.png';
+                img.style.width = '75px';
+                return img;
+            }
+        });
+        L.control.watermark = function (opts) { return new L.Control.Watermark(opts); };
+        L.control.watermark({ position: 'bottomleft' }).addTo(map);
 
         L.control.zoom({ position: 'topleft' }).addTo(map);
         L.control.locate({ locateOptions: { maxZoom: 19 } }).addTo(map);
@@ -433,28 +460,10 @@
             }
         }).addTo(map);
 
-        /* --- Point-in-polygon (ray-casting) for quartier filter --- */
-        function pointInRing(coord, ring) {
-            var x = coord[0], y = coord[1], inside = false;
-            for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-                var xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
-                if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
-            }
-            return inside;
-        }
-        function coordInQuartier(coord, feature) {
-            var polys = feature.geometry.type === 'Polygon' ? [feature.geometry.coordinates] : feature.geometry.coordinates;
-            return polys.some(function (poly) { return pointInRing(coord, poly[0]); });
-        }
+        /* --- Quartier per parking, read directly from the data (matches SectorName) --- */
         var featureQuartierMap = {};
         data.features.forEach(function (f) {
-            var coord = f.geometry.coordinates;
-            for (var i = 0; i < json_QuartiersSchaerbeek_1.features.length; i++) {
-                if (coordInQuartier(coord, json_QuartiersSchaerbeek_1.features[i])) {
-                    featureQuartierMap[f.properties.id] = json_QuartiersSchaerbeek_1.features[i].properties.SectorName;
-                    break;
-                }
-            }
+            featureQuartierMap[f.properties.ID] = f.properties.Quartier;
         });
 
         /* --- One GeoJSON layer per display mode --- */
@@ -476,16 +485,28 @@
 
         geoJsonLayers['type'].addTo(map);
 
+        /* --- Proxy layers driving each mode's category checkboxes --- */
+        var categoryLayers = {};
+        MODES.forEach(function (mode) {
+            categoryLayers[mode] = {};
+            LEGEND_CATS[mode].forEach(function (cat) {
+                categoryLayers[mode][cat] = L.layerGroup().addTo(map);
+            });
+        });
+
         /* --- Layer tree control (matches DSD-Cycloparking1030 pattern) --- */
         var tl = T.tree;
         var overlaysTree = [
             {
-                label: tl.vue, children: [
-                    { label: T.legends.type, layer: geoJsonLayers['type'], radioGroup: 'mode' },
-                    { label: T.legends.mutu, layer: geoJsonLayers['mutu'], radioGroup: 'mode' },
-                    { label: T.legends.owner, layer: geoJsonLayers['owner'], radioGroup: 'mode' },
-                    { label: T.legends.highlighted, layer: geoJsonLayers['highlighted'], radioGroup: 'mode' }
-                ]
+                label: tl.vue, children: MODES.map(function (mode) {
+                    return {
+                        label: T.legends[mode], layer: geoJsonLayers[mode], radioGroup: 'mode',
+                        collapsed: mode !== 'type',
+                        children: LEGEND_CATS[mode].map(function (cat) {
+                            return { label: T.categories[cat], layer: categoryLayers[mode][cat] };
+                        })
+                    };
+                })
             },
             {
                 label: tl.schaerbeek, selectAllCheckbox: true, children: [
@@ -498,7 +519,27 @@
             { label: tl.osm, radioGroup: 'bm', layer: osm }
         ];
 
-        L.control.layers.tree(null, overlaysTree, { collapsed: false }).addTo(map);
+        var layersControl = L.control.layers.tree(null, overlaysTree, { collapsed: false }).addTo(map);
+
+        /* --- Make the layers panel collapsible: Leaflet only wires the
+           expand/collapse listeners when the control starts collapsed, so
+           the toggle button is bound manually here. --- */
+        var layersToggle = layersControl._container.querySelector('.leaflet-control-layers-toggle');
+        if (layersToggle) {
+            // Leaflet itself binds click->expand (touch) or focus->expand (desktop) on this
+            // element; both fire before our own listener and force it back open, so remove
+            // them first or the toggle only ever re-expands and never stays collapsed.
+            L.DomEvent.off(layersToggle, 'click');
+            L.DomEvent.off(layersToggle, 'focus');
+            L.DomEvent.on(layersToggle, 'click', function (e) {
+                L.DomEvent.stop(e);
+                if (L.DomUtil.hasClass(layersControl._container, 'leaflet-control-layers-expanded')) {
+                    layersControl.collapse();
+                } else {
+                    layersControl.expand();
+                }
+            });
+        }
 
         /* --- Address search (Nominatim OSM via leaflet.photon) --- */
         var photonControl = L.control.photon({
@@ -518,6 +559,13 @@
             searchBtn.id = 'gcd-button-control';
             searchBtn.className = 'gcd-gl-btn fa fa-search search-button';
             photonEl.insertBefore(searchBtn, photonEl.firstChild);
+
+            /* --- Collapsed by default: input hidden until the magnifier is clicked --- */
+            var searchInput = photonEl.lastChild;
+            searchInput.style.display = 'none';
+            searchBtn.addEventListener('click', function () {
+                searchInput.style.display = (searchInput.style.display === 'none') ? 'block' : 'none';
+            });
         }
 
         /* --- Reset button (Réinitialiser) + lang switch --- */
@@ -547,16 +595,41 @@
         });
         new L.Control.ResetButton().addTo(map);
 
-        /* --- Quartier filter (spatial, point-in-polygon) --- */
-        function applyQuartierFilter(q) {
-            var all = (q === '');
+        /* --- Quartier + category filters (spatial point-in-polygon + per-mode checkboxes) --- */
+        var currentQuartier = '';
+        var categoryVisible = {};
+        MODES.forEach(function (mode) {
+            categoryVisible[mode] = {};
+            LEGEND_CATS[mode].forEach(function (cat) { categoryVisible[mode][cat] = true; });
+        });
+
+        function refreshLayerVisibility() {
+            var all = (currentQuartier === '');
             MODES.forEach(function (mode) {
                 geoJsonLayers[mode].eachLayer(function (sub) {
-                    var show = all || featureQuartierMap[sub.feature.properties.id] === q;
+                    var show = all || featureQuartierMap[sub.feature.properties.ID] === currentQuartier;
+                    var key = getKeyForMode(sub.feature, mode);
+                    show = show && categoryVisible[mode][key] !== false;
                     sub.setStyle({ opacity: show ? 1 : 0, fillOpacity: show ? sub._origFillOpacity : 0 });
                 });
             });
         }
+
+        function applyQuartierFilter(q) {
+            currentQuartier = q;
+            refreshLayerVisibility();
+        }
+
+        map.on('overlayadd overlayremove', function (e) {
+            MODES.forEach(function (mode) {
+                LEGEND_CATS[mode].forEach(function (cat) {
+                    if (e.layer === categoryLayers[mode][cat]) {
+                        categoryVisible[mode][cat] = (e.type === 'overlayadd');
+                        refreshLayerVisibility();
+                    }
+                });
+            });
+        });
 
         var _quartierNames = [];
         json_QuartiersSchaerbeek_1.features.forEach(function (f) {

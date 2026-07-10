@@ -141,7 +141,7 @@ html.map-view body {
   position: absolute;
   left: 0;
   top: 0;
-  bottom: 36px;
+  bottom: 0;
   width: 70%;
 }
 
@@ -149,7 +149,7 @@ html.map-view body {
   position: absolute;
   right: 0;
   top: 0;
-  bottom: 36px;
+  bottom: 0;
   width: 30%;
   padding: 0 15px;
   overflow-y: hidden;
@@ -166,20 +166,6 @@ html.map-view body {
   scrollbar-color: #cccccc white;
 }
 .the-sidebar .legend__wrapper { flex-shrink: 0; }
-
-#footer {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  height: 36px;
-  padding: 7px 15px;
-  font-size: 0.75rem;
-  color: #aaaaaa;
-}
-#footer p { margin: 0; }
-#footer a { color: inherit; }
-#footer a:hover { color: #585858; }
 
 /* ── HEADINGS (sidebar — map pages only) ────────────────────────── */
 html.map-view h1,

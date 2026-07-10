@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <!-- saved from url=(0038)http://offstreet.1030.be/index-fr.html -->
-<html class="map-view"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>html, body { height: 100%; margin: 0; }
-body {transition: opacity ease-in 0.2s; }
-body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; }
-</style>
-    
+<html class="map-view">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            transition: opacity ease-in 0.2s;
+        }
+
+        body[unresolved] {
+            opacity: 0;
+            display: block;
+            overflow: hidden;
+            position: relative;
+        }
+    </style>
+
     <title>Parkings hors voirie · Schaerbeek 1030</title>
     <link rel="shortcut icon" href="./css/images/logo1030GeoData.ico" type="image/x-icon">
     <link rel="stylesheet" href="./css/style.css">
@@ -27,20 +45,18 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         <div id="info"></div>
     </div>
 
-    <div id="footer">
-        <p>Bases de données gérées par la commune de Schaerbeek. Derniere mises à jour juillet 2026.</p>
-    </div>
+    <script>
+        window.appLanguage = 'fr';
+    </script>
+    <script src="./data/LimitesSchaerbeek_2.js"></script>
+    <script src="./data/QuartiersSchaerbeek_1.js"></script>
+    <script src="./data/parking-data.js"></script>
+    <script src="./js/leaflet.js"></script>
+    <script src="./js/L.Control.Layers.Tree.min.js"></script>
+    <script src="./js/L.Control.Locate.min.js"></script>
+    <script src="./js/leaflet.photon.js"></script>
+    <script src="./js/map.js"></script>
 
-<script>
-    window.appLanguage = 'fr';
-</script>
-<script src="./data/LimitesSchaerbeek_2.js"></script>
-<script src="./data/QuartiersSchaerbeek_1.js"></script>
-<script src="./data/parking-data.js"></script>
-<script src="./js/leaflet.js"></script>
-<script src="./js/L.Control.Layers.Tree.min.js"></script>
-<script src="./js/L.Control.Locate.min.js"></script>
-<script src="./js/leaflet.photon.js"></script>
-<script src="./js/map.js"></script>
+</body>
 
-</body></html>
+</html>
