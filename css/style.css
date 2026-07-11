@@ -186,6 +186,7 @@ html.map-view h3 { font-size: 1.1rem; }
 .the-sidebar #info .info-group h2 { margin-top: 0; }
 .the-sidebar #info .main-info > div,
 .the-sidebar #info .info-group > div { margin-left: 30px; }
+.the-sidebar #info .info-group { margin-top: 18px; }
 
 /* ── SIDEBAR INFO VALUES ───────────────────────────────────────── */
 .value { display: flex; }
@@ -199,9 +200,7 @@ html.map-view h3 { font-size: 1.1rem; }
 .value:last-child > div { border-bottom: 1px solid #cccccc; }
 .value.Remarque { color: grey; font-style: italic; }
 .value.Remarque div { border: 0; }
-.value.s_autre { display: initial; }
-.value.s_autre div { display: inline-block; border: 0; flex-shrink: 1; font-weight: initial; }
-.value.s_autre div.key:after { content: ' : '; }
+.source { margin: 0; }
 
 /* ── LEAFLET CONTROLS ───────────────────────────────────────────── */
 .leaflet-control-layers-list { min-width: 200px; }

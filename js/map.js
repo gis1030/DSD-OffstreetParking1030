@@ -18,14 +18,14 @@
             _default: '#595959'
         },
         mutu: {
-            mutu: '#c8e6cf',
-            refused: '#ce3943',
-            none: '#335496',
+            'public': '#2ba6ff',
+            commercial: '#335496',
+            bePark: '#42dd73',
             _default: '#595959'
         },
         owner: {
             'public': '#2ba6ff',
-            'prive': '#ce3943',
+            'privé': '#ce3943',
             _default: '#595959'
         },
         highlighted: {
@@ -36,9 +36,9 @@
     };
 
     var LEGEND_CATS = {
-        type: ['ouvert', 'couvert_sous_sol', 'couvert_hors_sol', 'boxes_ilot', 'boxes_front_rue', 'mix'],
-        mutu: ['mutu', 'refused', 'none'],
-        owner: ['public', 'prive'],
+        type: ['ouvert', 'couvert_sous_sol', 'couvert_hors_sol', 'boxes_ilot', 'boxes_front_rue', 'mix', 'unknown'],
+        mutu: ['public', 'commercial', 'bePark', 'none'],
+        owner: ['public', 'privé', 'unknown'],
         highlighted: ['OUI', 'NON']
     };
 
@@ -72,13 +72,14 @@
                 boxes_ilot: 'Boxes en ilot',
                 boxes_front_rue: 'Boxes côté rue',
                 mix: 'Mix',
-                mutu: 'Mutualisé',
-                refused: 'Refus BePark',
+                commercial: 'Exploitation commerciale de parking',
+                bePark: 'Mutualisé par BePark',
                 none: 'Non mutualisé',
                 'public': 'Public',
-                'prive': 'Privé',
+                'privé': 'Privé',
                 'OUI': 'Site retenu',
-                'NON': 'Non retenu'
+                'NON': 'Non retenu',
+                unknown: 'Inconnu'
             },
             sizes: {
                 le10: '≤ 10 places',
@@ -89,19 +90,13 @@
                 unknown: 'Potentialité de parking à confirmer'
             },
             sections: {
-                generalities: 'Généralités',
                 functions: 'Fonctions',
-                more_info: "Plus d'infos",
+                more_info: 'Informations complémentaires',
                 sources: 'Sources',
                 comment: 'Commentaire',
-                pdf: 'Documents PDF'
+                pdf: 'Rapport'
             },
             fields: {
-                ID: 'ID',
-                ADRESSE: 'Adresse',
-                NB_TOTAL: 'Nb. places total',
-                dont_mutua: 'Dont mutualisés',
-                Type_parki: 'Type de parking',
                 Résidenti: 'Résidentiel',
                 Bureaux: 'Bureaux',
                 Commerces: 'Commerces',
@@ -112,20 +107,43 @@
                 seniorie: 'Séniorerie',
                 Autre_equi: 'Autre équipement',
                 Pk_public: 'Parking public',
-                refusBePar: 'Refus BePark',
+                refusBePar: 'Demande de mutualisation BePark refusée',
                 Type_propr: 'Type de propriétaire',
-                Tx_remplis: 'Taux de remplissage',
-                Zone_RRU: 'Zone RRU',
-                Nb_COBRACE: 'COBRACE',
-                s_PE_IBGE: 'PE IBGE',
-                s_PACS: 'PACS',
-                s_taxes: 'Taxes',
-                s_ortho: 'Ortho',
-                s_BePark: 'BePark',
-                s_autre: 'Autre source',
+                Tx_remplis: 'Taux de remplissage du parking',
+                Zone_RRU: 'Zone accessibilité du RRU',
+                Nb_COBRACE: "Nombre d'emplacements autorisés selon le COBRACE",
+                Quartier: 'Quartier',
+                s_PE_IBGE: "Permis d'environnement (BE)",
+                s_PACS: 'Données PACS',
+                s_taxes: 'Données du règlement Taxe',
+                s_ortho: 'Photo aérienne 2019',
+                s_BePark: 'Données BePark',
+                s_autre: 'Autre source de données',
                 Remarque: 'Remarque',
                 '30_PDF': 'PDF 30 places',
                 '10_PDF': 'PDF 10 places'
+            },
+            words: {
+                places: 'places',
+                place: 'emplacement',
+                including: 'dont',
+                sharedPlaces: 'mutualisées',
+                publicMutu: 'publiques',
+                autreMutu: 'autre'
+            },
+            typeParkiFull: {
+                ouvert: 'Ouvert',
+                couvert_sous_sol: 'Couvert, en sous sol',
+                couvert_hors_sol: 'Couvert, hors sol',
+                boxes_ilot: 'Boxes en ilot',
+                boxes_front_rue: 'Boxes côté rue',
+                mix: 'Mix',
+                mix_Boxes_Ouvert: 'Mix boxes/ouvert',
+                mix_boxes_couvert: 'Mix boxes/couvert',
+                mix_ss_ouvert: 'Mix sous-sol/ouvert',
+                mix_ouvert_couvertHS: 'Mix ouvert/couvert',
+                mix_couvert_boxes_ouvert: 'Mix couvert/boxes/ouvert',
+                mix_ouvert_couvertHS_couvertSS: 'Mix ouvert/couvert (hors sol)/couvert (sous-sol)'
             },
             helptext: 'Pour accéder aux données, veuillez sélectionner un point sur la carte'
         },
@@ -158,13 +176,14 @@
                 boxes_ilot: 'Boxen op eiland',
                 boxes_front_rue: 'Boxen langs straat',
                 mix: 'Mix',
-                mutu: 'Gemutualiseerd',
-                refused: 'Weigering BePark',
+                commercial: 'Commerciële parkeerexploitatie',
+                bePark: 'Gedeeld via BePark',
                 none: 'Niet gemutualiseerd',
                 'public': 'Publiek',
-                'prive': 'Privé',
+                'privé': 'Privé',
                 'OUI': 'Weerhouden site',
-                'NON': 'Niet weerhouden'
+                'NON': 'Niet weerhouden',
+                unknown: 'Onbekend'
             },
             sizes: {
                 le10: '≤ 10 plaatsen',
@@ -175,19 +194,13 @@
                 unknown: 'Potentieel parking te bevestigen'
             },
             sections: {
-                generalities: 'Algemeen',
                 functions: 'Functies',
-                more_info: 'Meer info',
+                more_info: 'Aanvullende informatie',
                 sources: 'Bronnen',
                 comment: 'Opmerking',
-                pdf: 'PDF documenten'
+                pdf: 'Rapport'
             },
             fields: {
-                ID: 'ID',
-                ADRESSE: 'Adres',
-                NB_TOTAL: 'Totaal plaatsen',
-                dont_mutua: 'Waarvan gemutualiseerd',
-                Type_parki: 'Type parking',
                 Résidenti: 'Residentieel',
                 Bureaux: 'Kantoren',
                 Commerces: 'Handel',
@@ -198,20 +211,43 @@
                 seniorie: 'Seniorenwoning',
                 Autre_equi: 'Andere uitrusting',
                 Pk_public: 'Openbaar parking',
-                refusBePar: 'Weigering BePark',
+                refusBePar: 'Verzoek om BePark verdeling afgewezen',
                 Type_propr: 'Type eigenaar',
                 Tx_remplis: 'Bezettingsgraad',
-                Zone_RRU: 'Zone RRU',
-                Nb_COBRACE: 'COBRACE',
-                s_PE_IBGE: 'PE IBGE',
-                s_PACS: 'PACS',
-                s_taxes: 'Belastingen',
-                s_ortho: 'Ortho',
-                s_BePark: 'BePark',
-                s_autre: 'Andere bron',
+                Zone_RRU: 'Toegankelijkheid zone van RRU',
+                Nb_COBRACE: 'Aantal vergunde plaatsen volgens COBRACE',
+                Quartier: 'Wijk',
+                s_PE_IBGE: 'Milieuvergunning',
+                s_PACS: 'Pacs gegevens',
+                s_taxes: 'Belasting reglement gegevens',
+                s_ortho: 'Luchtphoto 2019',
+                s_BePark: 'BePark gegevens',
+                s_autre: 'Andere bron gegevens',
                 Remarque: 'Opmerking',
                 '30_PDF': 'PDF 30 plaatsen',
                 '10_PDF': 'PDF 10 plaatsen'
+            },
+            words: {
+                places: 'plaatsen',
+                place: 'plaats',
+                including: 'waaronder',
+                sharedPlaces: 'gedeelde plaatsen',
+                publicMutu: 'openbaar',
+                autreMutu: 'andere'
+            },
+            typeParkiFull: {
+                ouvert: 'Open',
+                couvert_sous_sol: 'Gedekt, ondergronds',
+                couvert_hors_sol: 'Gedekt, bovengronds',
+                boxes_ilot: 'Boxes in binnenterreinen van huizenblokken',
+                boxes_front_rue: 'Box aan de straatkant',
+                mix: 'Mix',
+                mix_Boxes_Ouvert: 'Mix box/open',
+                mix_boxes_couvert: 'Mix box/gedekt',
+                mix_ss_ouvert: 'Mix ondegronds/open',
+                mix_ouvert_couvertHS: 'Mix open/gedekt',
+                mix_couvert_boxes_ouvert: 'Mix gedekt/box/open',
+                mix_ouvert_couvertHS_couvertSS: 'Mix open/gedekt(bovengronds)/gedekt(ondergronds)'
             },
             helptext: 'Selecteer een punt op de kaart om de gegevens te raadplegen'
         }
@@ -219,14 +255,29 @@
 
     var T = TRANSLATIONS[lang] || TRANSLATIONS.fr;
 
+    /* Généralités (address title, total places, Type de parking) isn't a table of
+       key/value rows like the sections below — it's rendered separately by
+       buildGeneralitiesHtml(), matching offstreet_1030_local/index-fr.html. */
     var INFO_SECTIONS = [
-        { key: 'generalities', fields: ['ID', 'ADRESSE', 'NB_TOTAL', 'dont_mutua', 'Type_parki'] },
         { key: 'functions', fields: ['Résidenti', 'Bureaux', 'Commerces', 'Industries', 'Enseigneme', 'Cultu_spor', 'hotel', 'seniorie', 'Autre_equi', 'Pk_public'] },
-        { key: 'more_info', fields: ['refusBePar', 'Type_propr', 'Tx_remplis', 'Zone_RRU', 'Nb_COBRACE'] },
+        { key: 'more_info', fields: ['refusBePar', 'Type_propr', 'Tx_remplis', 'Zone_RRU', 'Nb_COBRACE', 'Quartier'] },
         { key: 'sources', fields: ['s_PE_IBGE', 's_PACS', 's_taxes', 's_ortho', 's_BePark', 's_autre'] },
         { key: 'comment', fields: ['Remarque'] },
         { key: 'pdf', fields: ['30_PDF', '10_PDF'] }
     ];
+
+    /* Field rendering type, matching offstreet_1030_local/index-fr.html: determines
+       whether/how a value is hidden or formatted. Unlisted fields default to 'string'. */
+    var FIELD_TYPES = {
+        Résidenti: 'number', Bureaux: 'number', Commerces: 'number', Industries: 'number',
+        Enseigneme: 'number', Cultu_spor: 'number', hotel: 'number', seniorie: 'number',
+        Autre_equi: 'number', Pk_public: 'number', Tx_remplis: 'number', Nb_COBRACE: 'number',
+        refusBePar: 'refus',
+        s_PE_IBGE: 'source', s_PACS: 'source', s_taxes: 'source', s_ortho: 'source',
+        s_BePark: 'source', s_autre: 'source',
+        Remarque: 'comment',
+        '30_PDF': 'file', '10_PDF': 'file'
+    };
 
     var MODES = ['type', 'mutu', 'owner', 'highlighted'];
 
@@ -234,8 +285,15 @@
        STYLING
        ========================================================= */
 
+    /* NB_TOTAL === 0 means "not yet quantified" here (the Excel export turns blank cells
+       into 0 instead of leaving them empty) — same "à confirmer" case as a null/missing
+       value in the original site, which uses null for it. */
+    function isUnconfirmedNbTotal(nb) {
+        return nb === null || nb === undefined || nb === 0;
+    }
+
     function getRadius(nb) {
-        if (nb === null || nb === undefined) return 6;
+        if (isUnconfirmedNbTotal(nb)) return 6;
         if (nb <= 10) return 3;
         if (nb <= 50) return 7;
         if (nb <= 100) return 9;
@@ -243,24 +301,43 @@
         return 15;
     }
 
+    /* Matches the original site's classification (offstreet_1030_local/dist/bundle.js):
+       first field that is > 0 wins, in this fixed priority order. */
     function getMutuKey(p) {
-        if (p.dont_mutua && p.dont_mutua > 0) return 'mutu';
-        if (p.refusBePar === 'OUI') return 'refused';
+        if (p.Pk_public && p.Pk_public > 0) return 'public';
+        if (p.Pk_com && p.Pk_com > 0) return 'commercial';
+        if (p.dont_mutBP && p.dont_mutBP > 0) return 'bePark';
         return 'none';
     }
 
     /* Data has finer-grained "mix_*" subtypes (mix_ss_ouvert, mix_Boxes_Ouvert, ...)
-       not present in LEGEND_CATS.type — fold them all into the single 'mix' category. */
+       not present in LEGEND_CATS.type — fold them all into the single 'mix' category.
+       Anything else unmatched (null, empty, typo, encoding mismatch, ...) falls back
+       to 'unknown' so it's still accounted for by a checkbox/legend entry. */
     function normalizeTypeKey(key) {
-        return (typeof key === 'string' && key.indexOf('mix') === 0) ? 'mix' : key;
+        if (typeof key === 'string' && key.indexOf('mix') === 0) return 'mix';
+        return (key === 'ouvert' || key === 'couvert_sous_sol' || key === 'couvert_hors_sol' ||
+            key === 'boxes_ilot' || key === 'boxes_front_rue') ? key : 'unknown';
+    }
+
+    function normalizeOwnerKey(key) {
+        return (key === 'public' || key === 'privé') ? key : 'unknown';
+    }
+
+    /* Matches the original site's classification (offstreet_1030_local/dist/bundle.js):
+       a site is "retenu" when either final-selection field has at least one place. */
+    function getHighlightedKey(p) {
+        var is30 = p['30_FINAL'] !== null && p['30_FINAL'] !== undefined && p['30_FINAL'] >= 1;
+        var is10 = p['10_FINAL'] !== null && p['10_FINAL'] !== undefined && p['10_FINAL'] >= 1;
+        return (is30 || is10) ? 'OUI' : 'NON';
     }
 
     function getKeyForMode(feature, mode) {
         var p = feature.properties;
         if (mode === 'type') return normalizeTypeKey(p.Type_parki);
         if (mode === 'mutu') return getMutuKey(p);
-        if (mode === 'owner') return p.Type_propr;
-        return p.Potentiel;
+        if (mode === 'owner') return normalizeOwnerKey(p.Type_propr);
+        return getHighlightedKey(p);
     }
 
     function makeStyleForMode(feature, mode) {
@@ -269,13 +346,14 @@
         var key = getKeyForMode(feature, mode);
         var color = (colorMap && (colorMap[key] || colorMap._default)) || '#595959';
         var nb = p.NB_TOTAL;
+        var unconfirmed = isUnconfirmedNbTotal(nb);
         return {
             radius: getRadius(nb),
             fillColor: color,
             color: color,
-            weight: 1,
+            weight: unconfirmed ? 2 : 1,
             opacity: 1,
-            fillOpacity: (nb === null || nb === undefined) ? 0.4 : 0.85
+            fillOpacity: unconfirmed ? 0 : 0.85
         };
     }
 
@@ -325,19 +403,63 @@
        INFO PANEL
        ========================================================= */
 
+    /* Address title + total places + Type de parking, as three independent lines
+       (no table, no field labels) — matches offstreet_1030_local/index-fr.html. */
+    function buildGeneralitiesHtml(props) {
+        var streetName = (lang === 'fr') ? props.pn_name_fre : props.pn_name_dut;
+        var title = streetName ?
+            (streetName + (props.adrn !== null && props.adrn !== undefined ? ' ' + props.adrn : '')) :
+            ((props.ID_adr_Urb !== null && props.ID_adr_Urb !== undefined) ? String(props.ID_adr_Urb) : '');
+        var html = '<h2 class="adress">' + title + '</h2>';
+
+        if (!isUnconfirmedNbTotal(props.NB_TOTAL)) {
+            var placesWord = props.NB_TOTAL > 1 ? T.words.places : T.words.place;
+            var line = props.NB_TOTAL + ' ' + placesWord;
+            if (props.dont_mutua && props.dont_mutua > 0) {
+                var source = (props.Pk_public && props.Pk_public > 0) ? T.words.publicMutu :
+                    (props.Pk_com && props.Pk_com > 0) ? T.words.autreMutu : 'BePark';
+                line += ' ' + T.words.including + ' ' + props.dont_mutua + ' ' + T.words.sharedPlaces + ' (' + source + ')';
+            }
+            html += '<div class="total"><div class="value">' + line + '</div></div>';
+        }
+
+        if (props.Type_parki) {
+            html += '<div class="type"><div class="value">' + (T.typeParkiFull[props.Type_parki] || props.Type_parki) + '</div></div>';
+        }
+        return html;
+    }
+
     function renderInfo(props) {
         var infoDiv = document.getElementById('info');
         if (!infoDiv) return;
 
-        var html = '<div class="main-info">';
+        var html = '<div class="main-info">' + buildGeneralitiesHtml(props);
         INFO_SECTIONS.forEach(function (section) {
             var rows = section.fields
-                .filter(function (f) { return props[f] !== null && props[f] !== undefined; })
+                .filter(function (f) {
+                    var v = props[f];
+                    if (v === null || v === undefined) return false;
+                    var type = FIELD_TYPES[f];
+                    if ((type === 'number' || type === 'source') && v === 0) return false;
+                    if (type === 'refus' && v === 'NON') return false;
+                    return true;
+                })
                 .map(function (f) {
+                    var v = props[f];
+                    var type = FIELD_TYPES[f];
+                    if (type === 'source') {
+                        return '<div class="source">' + (T.fields[f] || f) + '</div>';
+                    }
+                    if (type === 'comment') {
+                        return '<div class="value Remarque"><div>' + v + '</div></div>';
+                    }
+                    if (type === 'file') {
+                        return '<div class="value"><a class="pdf-download" href="pdf/' + v + '.pdf" target="_blank">' + v + '</a></div>';
+                    }
                     var lbl = T.fields[f] || f;
                     return '<div class="value">' +
                         '<div class="key">' + lbl + '</div>' +
-                        '<div>' + props[f] + '</div>' +
+                        '<div>' + v + '</div>' +
                         '</div>';
                 }).join('');
             if (rows) {
@@ -468,6 +590,7 @@
 
         /* --- One GeoJSON layer per display mode --- */
         var geoJsonLayers = {};
+        var selectedLayer = null;
         MODES.forEach(function (mode) {
             geoJsonLayers[mode] = L.geoJSON(data, {
                 pointToLayer: function (feature, latlng) {
@@ -475,8 +598,15 @@
                 },
                 onEachFeature: function (feature, layer) {
                     var nb = feature.properties.NB_TOTAL;
-                    layer._origFillOpacity = (nb === null || nb === undefined) ? 0.4 : 0.85;
+                    layer._origFillOpacity = isUnconfirmedNbTotal(nb) ? 0 : 0.85;
                     layer.on('click', function () {
+                        if (selectedLayer && selectedLayer !== layer) {
+                            selectedLayer.setStyle(makeStyleForMode(selectedLayer.feature, selectedLayer._mode));
+                        }
+                        var baseStyle = makeStyleForMode(feature, mode);
+                        layer.setStyle({ color: baseStyle.color, weight: 3, fillColor: '#ffffff', fillOpacity: 1 });
+                        layer._mode = mode;
+                        selectedLayer = layer;
                         renderInfo(feature.properties);
                     });
                 }
@@ -542,12 +672,24 @@
         }
 
         /* --- Address search (Nominatim OSM via leaflet.photon) --- */
+        var searchIcon = L.icon({
+            iconUrl: './markers/1030_Icon.png',
+            iconSize: [20, 24],
+            iconAnchor: [10, 24]
+        });
+        var searchMarker = null;
         var photonControl = L.control.photon({
             url: 'https://nominatim.openstreetmap.org/search?format=geojson&addressdetails=1&',
             feedbackLabel: '',
             position: 'topleft',
             includePosition: true,
-            initial: true
+            initial: true,
+            onSelected: function (feature) {
+                var latlng = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
+                map.setView(latlng, 16);
+                if (searchMarker) map.removeLayer(searchMarker);
+                searchMarker = L.marker(latlng, { icon: searchIcon }).addTo(map);
+            }
         }).addTo(map);
         photonControl._container.childNodes[0].style.borderRadius = '10px';
         var photonEl = document.getElementsByClassName('leaflet-photon leaflet-control')[0];
