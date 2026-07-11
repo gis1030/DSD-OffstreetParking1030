@@ -18,9 +18,9 @@
             _default: '#595959'
         },
         mutu: {
-            'public': '#2ba6ff',
-            commercial: '#335496',
-            bePark: '#42dd73',
+            'public': '#2a78d6',
+            commercial: '#1baf7a',
+            bePark: '#eda100',
             _default: '#595959'
         },
         owner: {
