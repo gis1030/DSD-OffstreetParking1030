@@ -21,6 +21,7 @@
             'public': '#2a78d6',
             commercial: '#1baf7a',
             bePark: '#eda100',
+            refusBePark: '#FF3FED',
             _default: '#595959'
         },
         owner: {
@@ -37,7 +38,7 @@
 
     var LEGEND_CATS = {
         type: ['ouvert', 'couvert_sous_sol', 'couvert_hors_sol', 'boxes_ilot', 'boxes_front_rue', 'mix', 'unknown'],
-        mutu: ['public', 'commercial', 'bePark', 'none'],
+        mutu: ['public', 'commercial', 'bePark', 'none', 'refusBePark'],
         owner: ['public', 'privé', 'unknown'],
         highlighted: ['OUI', 'NON']
     };
@@ -75,6 +76,7 @@
                 commercial: 'Exploitation commerciale de parking',
                 bePark: 'Mutualisé par BePark',
                 none: 'Non mutualisé',
+                refusBePark: 'Non mutualisé (Refus BePark)',
                 'public': 'Public',
                 'privé': 'Privé',
                 'OUI': 'Site retenu',
@@ -179,6 +181,7 @@
                 commercial: 'Commerciële parkeerexploitatie',
                 bePark: 'Gedeeld via BePark',
                 none: 'Niet gemutualiseerd',
+                refusBePark: 'Niet gemutualiseerd (Weigering BePark)',
                 'public': 'Publiek',
                 'privé': 'Privé',
                 'OUI': 'Weerhouden site',
@@ -302,11 +305,15 @@
     }
 
     /* Matches the original site's classification (offstreet_1030_local/dist/bundle.js):
-       first field that is > 0 wins, in this fixed priority order. */
+       first field that is > 0 wins, in this fixed priority order (public/commercial/
+       bePark untouched). Extension beyond production: among sites left over with no
+       positive mutualisation field, refusBePar === 'OUI' carves out its own category
+       instead of falling into the generic 'none' bucket. */
     function getMutuKey(p) {
         if (p.Pk_public && p.Pk_public > 0) return 'public';
         if (p.Pk_com && p.Pk_com > 0) return 'commercial';
         if (p.dont_mutBP && p.dont_mutBP > 0) return 'bePark';
+        if (p.refusBePar === 'OUI') return 'refusBePark';
         return 'none';
     }
 
